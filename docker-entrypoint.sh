@@ -127,6 +127,14 @@ if ! [[ -z "$DB_URI" || -z "$STATDB_URI" || -z "$DB_NAME" ]]; then
   settings["unifi.db.name"]="$DB_NAME"
 fi
 
+if ! [[ -z "$UNIFI_HTTP_PORT"  ]]; then
+  settings["unifi.http.port"]="$UNIFI_HTTP_PORT"
+fi
+
+if ! [[ -z "$UNIFI_HTTPS_PORT"  ]]; then
+  settings["unifi.https.port"]="$UNIFI_HTTPS_PORT"
+fi
+
 for key in "${!settings[@]}"; do
   confSet "$confFile" "$key" "${settings[$key]}"
 done
@@ -177,7 +185,7 @@ if [[ "${@}" == "unifi" ]]; then
         gosu unifi:unifi ${UNIFI_CMD} &
     fi
     wait
-    log "WARN: unifi service process ended without being singaled? Check for errors in ${LOGDIR}." >&2
+    log "WARN: unifi service process ended without being signaled? Check for errors in ${LOGDIR}." >&2
 else
     log "Executing: ${@}"
     exec ${@}
